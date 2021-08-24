@@ -18,7 +18,7 @@ defined by **172.18.0.0/24**.
 Only one [volume](https://docs.docker.com/storage/volumes/) defined for this container (directory name is **data**).
 This directory will store the custom and pulled images from [Docker Hub](https://hub.docker.com/)
 
-## How it works?
+## How it create it?
 [Download and install Docker Engine](https://docs.docker.com/get-docker/)
 
 [Download and install Docker Compose](https://docs.docker.com/compose/install/)
@@ -27,11 +27,11 @@ Create a directory for the project (in my case I defined a separated drive parti
 
 > I used uppercase directory names for common-used projects, e.g.: Docker Registry, MySQL, phpMyAdmin, etc...). 
 > 
-> `mkdir -p /media/adam/DOCKER/DOCKER_REGISTRY`
+> `$ mkdir -p /media/adam/DOCKER/DOCKER_REGISTRY`
 
 Create a directory for the **volume** 
 
-`mkdir -p /media/adam/DOCKER/DOCKER_REGISTRY/data`
+`$ mkdir -p /media/adam/DOCKER/DOCKER_REGISTRY/data`
 
 Create a file with the following content
 ```yaml
@@ -59,9 +59,17 @@ networks:
 
 Open the project root directory and create the container with the next command:
 
-`docker-compose up -d`
+`$ docker-compose up -d`
 
 If all right now when run `docker ps -a` command the running container is included in the resulting table.
+
+## How to use?
+Now the container ready for receive images with following steps. To do this, take the following steps:
+1. Pull an image from Docker Hub (e.g.: *ubuntu:16.04*). `$ docker pull ubuntu:16.04`
+2. > Tag the image as **localhost:5000/my-ubuntu**. This creates an additional tag for the existing image. When the first part of the tag is a hostname and port, Docker interprets this as the location of a registry, when pushing.
+<br/>`$ docker tag ubuntu:16.04 localhost:5000/my-ubuntu`
+3. Push the image to the local registry running at `localhost:5000`: <br/> `$ docker push localhost:5000/my-ubuntu`
+4. Remove the locally-cached `ubuntu:16.04` and `localhost:5000/my-ubuntu` images, so that you can test pulling the image from your registry. This does not remove the `localhost:5000/my-ubuntu` image from your registry. <br/>`$ docker image remove ubuntu:16.04`<br/>`$ docker image remove localhost:5000/my-ubuntu`
 
 ## Sources
 * [How To Set Up a Private Docker Registry on Ubuntu 18.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-private-docker-registry-on-ubuntu-18-04)
