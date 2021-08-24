@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  registry:
+    image: registry:2
+    container_name: local_registry
+    ports:
+    - "5000:5000"
+    networks:
+      devnet:
+        ipv4_address: 172.18.0.2
+    environment:
+      REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
+    volumes:
+      - ./data:/data
+    restart: always
+
+networks:
+  devnet:
+    external: true
