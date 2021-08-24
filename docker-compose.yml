@@ -12,7 +12,7 @@ services:
     environment:
       REGISTRY_STORAGE_FILESYSTEM_ROOTDIRECTORY: /data
     volumes:
-      - ./data:/data
+      - ./data:/var/lib/registry
     restart: always
 
 networks:
